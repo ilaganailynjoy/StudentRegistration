@@ -98,8 +98,9 @@
 
                         <!-- Middle Name -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                            <label for="middle_name" class="block text-sm font-medium text-gray-700">
                                 Middle Name
+                                <span class="text-gray-400">(Optional)</span>
                             </label>
 
                             <input
