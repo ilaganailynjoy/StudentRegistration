@@ -14,7 +14,7 @@
     <div class="max-w-6xl mx-auto py-10 px-4">
 
         <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 
             <div>
                 <h1 class="text-3xl font-bold text-gray-800">
@@ -22,137 +22,169 @@
                 </h1>
 
                 <p class="text-gray-500 mt-1">
-                    View all registered students
+                    Manage and view registered student information
                 </p>
             </div>
 
             <a
                 href="{{ route('students.create') }}"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg text-center"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg text-center shadow-sm"
             >
                 + Register Student
             </a>
 
         </div>
 
+        <!-- Student Count -->
+        <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+            <p class="text-sm text-gray-500">
+                Total Registered Students
+            </p>
+
+            <p class="text-3xl font-bold text-blue-600 mt-1">
+                {{ $students->count() }}
+            </p>
+        </div>
 
         <!-- Student Table -->
         <div class="bg-white shadow-lg rounded-xl overflow-hidden">
 
-            <div class="overflow-x-auto">
+            @if($students->count() > 0)
 
-                <table class="w-full">
+                <div class="px-6 py-4 border-b bg-gray-50">
+                    <h2 class="font-semibold text-gray-800">
+                        Student Records
+                    </h2>
+                </div>
 
-                    <thead class="bg-gray-50 border-b">
+                <div class="overflow-x-auto">
 
-                        <tr>
+                    <table class="w-full">
 
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                                Photo
-                            </th>
-
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                                Student ID
-                            </th>
-
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                                Name
-                            </th>
-
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                                Email
-                            </th>
-
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                                Program
-                            </th>
-
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                                Action
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody class="divide-y">
-
-                        @forelse($students as $student)
-
-                            <tr class="hover:bg-gray-50">
-
-                                <!-- Photo -->
-                                <td class="px-6 py-4">
-
-                                    <img
-                                        src="{{ asset('storage/' . $student->profile_picture) }}"
-                                        alt="Student Photo"
-                                        class="w-16 h-16 rounded-full object-cover"
-                                    >
-
-                                </td>
-
-
-                                <!-- Student ID -->
-                                <td class="px-6 py-4 text-sm font-medium text-gray-800">
-                                    {{ $student->student_id }}
-                                </td>
-
-
-                                <!-- Name -->
-                                <td class="px-6 py-4 text-sm text-gray-800">
-                                    {{ $student->first_name }}
-                                    {{ $student->middle_name }}
-                                    {{ $student->last_name }}
-                                </td>
-
-
-                                <!-- Email -->
-                                <td class="px-6 py-4 text-sm text-gray-600">
-                                    {{ $student->email }}
-                                </td>
-
-
-                                <!-- Program -->
-                                <td class="px-6 py-4 text-sm text-gray-600">
-                                    {{ $student->program }}
-                                </td>
-
-
-                                <!-- Action -->
-                                <td class="px-6 py-4">
-
-                                    <a
-                                        href="{{ route('students.show', $student) }}"
-                                        class="text-blue-600 hover:text-blue-800 font-semibold"
-                                    >
-                                        View Profile
-                                    </a>
-
-                                </td>
-
-                            </tr>
-
-                        @empty
+                        <thead class="bg-gray-50 border-b">
 
                             <tr>
 
-                                <td
-                                    colspan="6"
-                                    class="px-6 py-10 text-center text-gray-500"
-                                >
-                                    No students registered yet.
-                                </td>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                                    Photo
+                                </th>
+
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                                    Student ID
+                                </th>
+
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                                    Name
+                                </th>
+
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                                    Email
+                                </th>
+
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                                    Program
+                                </th>
+
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
+                                    Action
+                                </th>
 
                             </tr>
 
-                        @endforelse
+                        </thead>
 
-                    </tbody>
+                        <tbody class="divide-y divide-gray-100">
 
-                </table>
+                            @foreach($students as $student)
 
-            </div>
+                                <tr class="hover:bg-blue-50 transition">
+
+                                    <!-- Photo -->
+                                    <td class="px-6 py-4">
+
+                                        <img
+                                            src="{{ asset('storage/' . $student->profile_picture) }}"
+                                            alt="Student Photo"
+                                            class="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover border-2 border-gray-200"
+                                        >
+
+                                    </td>
+
+                                    <!-- Student ID -->
+                                    <td class="px-6 py-4 text-sm font-semibold text-gray-800">
+                                        {{ $student->student_id }}
+                                    </td>
+
+                                    <!-- Name -->
+                                    <td class="px-6 py-4 text-sm text-gray-800">
+
+                                        <div class="font-semibold">
+                                            {{ $student->first_name }}
+                                            {{ $student->middle_name }}
+                                            {{ $student->last_name }}
+                                        </div>
+
+                                    </td>
+
+                                    <!-- Email -->
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        {{ $student->email }}
+                                    </td>
+
+                                    <!-- Program -->
+                                    <td class="px-6 py-4 text-sm text-gray-600">
+                                        {{ $student->program }}
+                                    </td>
+
+                                    <!-- Action -->
+                                    <td class="px-6 py-4">
+
+                                        <a
+                                            href="{{ route('students.show', $student) }}"
+                                            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg"
+                                        >
+                                            View Profile
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            @else
+
+                <!-- Empty State -->
+                <div class="text-center px-6 py-16">
+
+                    <div class="text-5xl mb-4">
+                        👨‍🎓
+                    </div>
+
+                    <h2 class="text-xl font-bold text-gray-800">
+                        No Students Registered
+                    </h2>
+
+                    <p class="text-gray-500 mt-2 mb-6">
+                        Start by registering the first student.
+                    </p>
+
+                    <a
+                        href="{{ route('students.create') }}"
+                        class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-lg"
+                    >
+                        Register First Student
+                    </a>
+
+                </div>
+
+            @endif
 
         </div>
 
